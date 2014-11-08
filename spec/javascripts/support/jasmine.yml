@@ -1,0 +1,14 @@
+src_files:
+  - public/js/lib/*.js
+  - public/js/models/*.js
+stylesheets:
+  - public/css/*.css
+helpers:
+  - 'helpers/**/*.js'
+spec_files:
+  - '**/*[sS]pec.js'
+src_dir:
+spec_dir:
+spec_helper:
+boot_dir:
+boot_files:
