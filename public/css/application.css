@@ -1,3 +1,7 @@
+.hidden {
+  visibility: hidden;
+}
+
 div[data-game] {
   margin: 4em 0; 
   text-align: center;
@@ -14,6 +18,7 @@ div[data-game] {
 .char {
   display: inline-block;
   margin-top: 0.521em;
+  color: orange;
 }
 
 .show-on-hover {
@@ -23,5 +28,4 @@ div[data-game] {
 .show-on-hover .char {
   opacity: 0.3;
   color: orange;
-  visibility: hidden;
 }

@@ -16,7 +16,7 @@ BoardView.prototype.renderRow = function(row) {
 
 BoardView.prototype.renderSquare = function(square) {
   if (square === '-') {
-    return '<span class="square show-on-hover"><span class="char">X</span></span>'; 
+    return '<span class="square show-on-hover"><span class="char hidden">X</span></span>'; 
   } else {
     return '<span class="square"><span class="char">' + square + '</span></span>'; 
   }
