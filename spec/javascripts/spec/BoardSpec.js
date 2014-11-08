@@ -25,17 +25,19 @@ describe("Board", function() {
     });    
   });
 
-  describe("#threeInARow", function() {
+  describe("#setOfThreeHasThreeInARow", function() {
     it("returns true if an array has all of the same element that are not '-'", function() {
-      expect(board.threeInARow(['X', 'X', 'X'])).toEqual(true)
+      expect(board.setOfThreeHasThreeInARow(['X', 'X', 'X'])).toEqual(true);
     });
 
     it("returns false if an array has all '-'", function() {
-      expect(board.threeInARow(['-', '-', '-'])).toEqual(false)
+      expect(board.setOfThreeHasThreeInARow(['-', '-', '-'])).toEqual(false);
     });    
 
     it("returns false if an array has different elements", function() {
-      expect(board.threeInARow(['X', 'O', 'O'])).toEqual(false)
+      expect(board.setOfThreeHasThreeInARow(['X', 'O', 'O'])).toEqual(false);
+      expect(board.setOfThreeHasThreeInARow(['X', '-', 'O'])).toEqual(false);
+      expect(board.setOfThreeHasThreeInARow(['X', '-', '-'])).toEqual(false);
     });       
   });
 
@@ -75,4 +77,13 @@ describe("Board", function() {
       expect(board.hasThreeInARow()).toEqual(true);
     });        
   });  
+
+  describe("#threeInARowCharacter", function() { 
+    it("returns the character that makes up the row of 3", function() {
+      board.layout = ['X', 'O', 'O', 
+                      'O', 'X', 'O', 
+                      'X', 'O', 'X'];  
+      expect(board.threeInARowCharacter()).toEqual('X');                         
+    });
+  });
 });

@@ -5,6 +5,9 @@ function BoardView(board) {
 BoardView.prototype.render = function() {
   var rows = this.board.getRows();
   var self = this;
+  
+  $('div[data-game]').empty();
+
   $.each(rows, function(index, row) {
     $('div[data-game]').append(self.renderRow(row));
   });

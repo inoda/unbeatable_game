@@ -1,26 +1,9 @@
 $(document).ready(function() {
-  var $game = $('div[data-game]');
+  var $gameDiv = $('div[data-game]');
 
-  if ($game != undefined) {
-    toggleShowOnHover();
-    bindClickToChooseSquare();
-    var game = new Game();
-    game.start();
+  if ($gameDiv != undefined) {
+    game = new Game();
+    gameCtrl = new GameCtrl(game);
+    gameCtrl.startGame();
   }
 });
-
-function toggleShowOnHover() {
-  $('body').on('mouseover', '.show-on-hover', function() {
-    $(this).children().removeClass('hidden');
-  });
-
-  $('body').on('mouseout', '.show-on-hover', function() {
-    $(this).children().addClass('hidden');
-  });
-}
-
-function bindClickToChooseSquare() {
-  $('body').on('click', '.show-on-hover', function() {
-    $(this).removeClass('show-on-hover');
-  });
-}

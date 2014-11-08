@@ -15,12 +15,40 @@ Board.prototype.hasThreeInARow = function() {
   return false;
 }
 
-Board.prototype.checkColumns = function() {
-  var colOne = [this.layout[0], this.layout[3], this.layout[6]];
-  var colTwo = [this.layout[1], this.layout[4], this.layout[7]];
-  var colThree = [this.layout[2], this.layout[5], this.layout[8]];
+Board.prototype.setOfThreeHasThreeInARow = function(setOfThree) {
+  var initialChar = setOfThree[0];
+  var i;
 
-  if ( this.threeInARow(colOne) || this.threeInARow(colTwo) || this.threeInARow(colThree) ) {
+  if (initialChar === '-') return false;
+
+  for (i = 1; i < setOfThree.length; i++) {
+    if (setOfThree[i] != initialChar) {
+      return false;
+    }
+  };
+
+  return true;
+}
+
+Board.prototype.threeInARowCharacter = function() {
+  var cols = this.getCols();
+  var rows = this.getRows();
+  var diags = this.getDiags();
+  var possibilities = cols.concat(rows).concat(diags);
+  var setOfThree;
+
+  for (var i = 0; i < possibilities.length; i++) {
+    setOfThree = possibilities[i]
+    if (this.setOfThreeHasThreeInARow(setOfThree)) {
+      return setOfThree[0]
+    }
+  };
+}
+
+Board.prototype.checkColumns = function() {
+  var cols = this.getCols();
+
+  if ( this.setOfThreeHasThreeInARow(cols[0]) || this.setOfThreeHasThreeInARow(cols[1]) || this.setOfThreeHasThreeInARow(cols[2]) ) {
     return true;
   }
   return false;
@@ -29,25 +57,19 @@ Board.prototype.checkColumns = function() {
 Board.prototype.checkRows = function() {
   var rows = this.getRows();
 
-  if ( this.threeInARow(rows[0]) || this.threeInARow(rows[1]) || this.threeInARow(rows[2]) ) {
+  if ( this.setOfThreeHasThreeInARow(rows[0]) || this.setOfThreeHasThreeInARow(rows[1]) || this.setOfThreeHasThreeInARow(rows[2]) ) {
     return true;
   }
   return false;
 }
 
 Board.prototype.checkDiagonals = function() {
-  var diagOne = [this.layout[0], this.layout[4], this.layout[8]];
-  var diagTwo = [this.layout[2], this.layout[4], this.layout[6]];
+  var diags = this.getDiags();
 
-  if ( this.threeInARow(diagOne) || this.threeInARow(diagTwo) ) {
+  if ( this.setOfThreeHasThreeInARow(diags[0]) || this.setOfThreeHasThreeInARow(diags[1]) ) {
     return true;
   }
   return false;  
-}
-
-Board.prototype.threeInARow = function(set) {
-  var unique_values = $.unique(set);
-  return unique_values.length === 1 && unique_values != '-';
 }
 
 Board.prototype.getRows = function() {
@@ -56,4 +78,19 @@ Board.prototype.getRows = function() {
   var rowThree = this.layout.slice(6, 9);
 
   return [rowOne, rowTwo, rowThree];
+}
+
+Board.prototype.getCols = function() {
+  var colOne = [this.layout[0], this.layout[3], this.layout[6]];
+  var colTwo = [this.layout[1], this.layout[4], this.layout[7]];
+  var colThree = [this.layout[2], this.layout[5], this.layout[8]];
+
+  return [colOne, colTwo, colThree];
+}
+
+Board.prototype.getDiags = function() {
+  var diagOne = [this.layout[0], this.layout[4], this.layout[8]];
+  var diagTwo = [this.layout[2], this.layout[4], this.layout[6]];
+
+  return [diagOne, diagTwo];
 }
