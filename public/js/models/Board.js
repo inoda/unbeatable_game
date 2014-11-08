@@ -27,11 +27,9 @@ Board.prototype.checkColumns = function() {
 }
 
 Board.prototype.checkRows = function() {
-  var rowOne = this.layout.slice(0, 3);
-  var rowTwo = this.layout.slice(3, 6);
-  var rowThree = this.layout.slice(6, 9);
+  var rows = this.getRows();
 
-  if ( this.threeInARow(rowOne) || this.threeInARow(rowTwo) || this.threeInARow(rowThree) ) {
+  if ( this.threeInARow(rows[0]) || this.threeInARow(rows[1]) || this.threeInARow(rows[2]) ) {
     return true;
   }
   return false;
@@ -50,4 +48,12 @@ Board.prototype.checkDiagonals = function() {
 Board.prototype.threeInARow = function(set) {
   var unique_values = $.unique(set);
   return unique_values.length === 1 && unique_values != '-';
+}
+
+Board.prototype.getRows = function() {
+  var rowOne = this.layout.slice(0, 3);
+  var rowTwo = this.layout.slice(3, 6);
+  var rowThree = this.layout.slice(6, 9);
+
+  return [rowOne, rowTwo, rowThree];
 }

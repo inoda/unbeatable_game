@@ -1,0 +1,27 @@
+div[data-game] {
+  margin: 4em 0; 
+  text-align: center;
+}
+
+.square {
+  border: 1px dashed lightgray;
+  height: 2.292em;
+  width: 2.292em;
+  display: inline-block;
+  font-size: 3em;
+}
+
+.char {
+  display: inline-block;
+  margin-top: 0.521em;
+}
+
+.show-on-hover {
+  cursor: pointer;
+}
+
+.show-on-hover .char {
+  opacity: 0.3;
+  color: orange;
+  visibility: hidden;
+}
