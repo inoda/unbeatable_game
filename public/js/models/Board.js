@@ -8,6 +8,16 @@ Board.prototype.isFull = function() {
   return this.layout.indexOf('-') === -1;
 }
 
+Board.prototype.openSquareIndices = function() {
+  var openSquares = [];
+
+  for (var i = 0; i < this.layout.length; i++) {
+    if (this.layout[i] === '-') { openSquares.push(i) }
+  };
+
+  return openSquares;
+}
+
 Board.prototype.hasThreeInARow = function() {
   if (this.checkColumns() || this.checkRows() || this.checkDiagonals()) {
     return true;

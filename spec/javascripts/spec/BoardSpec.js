@@ -86,4 +86,13 @@ describe("Board", function() {
       expect(board.threeInARowCharacter()).toEqual('X');                         
     });
   });
+
+  describe("#openSquareIndices", function() { 
+    it("returns an array with the indicies of open squares on the board", function() {
+      board.layout = ['X', '-', 'X', 
+                      '-', 'O', '-', 
+                      'X', 'O', '-'];
+      expect(board.openSquareIndices()).toEqual([1, 3, 5, 8]);                        
+    });
+  });
 });

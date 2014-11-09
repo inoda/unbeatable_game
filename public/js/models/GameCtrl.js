@@ -11,11 +11,18 @@ GameCtrl.prototype.startGame = function() {
 GameCtrl.prototype.run = function($square) {
   var index = indexOfClickedSquare($square);
   this.game.markPlayerMove(index);
-  this.game.chooseBestOption();
+
+  if (this.game.isFinished()) {
+    this.reportGameResults();
+    return;
+  }
+
+  this.game.chooseBestMove();
   this.game.boardView.render();
 
   if (this.game.isFinished()) {
     this.reportGameResults();
+    return;
   }
 };
 
@@ -23,6 +30,7 @@ GameCtrl.prototype.reportGameResults = function() {
   var results = this.game.results();
   alert(results);
 }
+
 
 
 
