@@ -18,7 +18,7 @@ GameCtrl.prototype.run = function($square) {
   }
 
   this.game.chooseBestMove();
-  this.game.boardView.render();
+  this.game.display();
 
   if (this.game.isFinished()) {
     this.reportGameResults();

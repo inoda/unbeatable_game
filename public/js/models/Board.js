@@ -8,6 +8,26 @@ Board.prototype.isFull = function() {
   return this.layout.indexOf('-') === -1;
 }
 
+Board.prototype.numberOfXs = function() {
+  var count = 0;
+  for (var i = 0; i < this.layout.length; i++) {
+    if (this.layout[i] === 'X') {
+      count += 1;
+    }
+  };
+  return count;
+}
+
+Board.prototype.numberOfOs = function() {
+  var count = 0;
+  for (var i = 0; i < this.layout.length; i++) {
+    if (this.layout[i] === 'O') {
+      count += 1;
+    }
+  };
+  return count;  
+}
+
 Board.prototype.openSquareIndices = function() {
   var openSquares = [];
 

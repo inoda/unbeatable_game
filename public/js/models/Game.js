@@ -24,16 +24,26 @@ Game.prototype.chooseBestMove = function() {
   }
 
   this.markComputerMove(bestMove);
+
+  // Empties move/score store so that it can be populated for the next move
   this.minimaxScoresAndMoves = {};
   return;
 }
 
 Game.prototype.markPlayerMove = function(index) {
-  this.board.layout[index] = 'X';
+  if (this.board.layout[index] === '-' && this.isPlayersTurn()) {
+    this.board.layout[index] = 'X';
+  }
 }
 
 Game.prototype.markComputerMove = function(index) {
-  this.board.layout[index] = 'O';
+  if (this.board.layout[index] === '-' && !this.isPlayersTurn()) {
+    this.board.layout[index] = 'O';
+  }
+}
+
+Game.prototype.isPlayersTurn = function() {
+  return this.board.numberOfXs() === this.board.numberOfOs();
 }
 
 Game.prototype.isFinished = function() {
@@ -55,6 +65,7 @@ Game.prototype.getMinimaxScores = function(depth, player, board) {
 
   var boardClone = new Board();
   boardClone.layout = board.layout.slice(0);
+
   var possibleMoves = boardClone.openSquareIndices();
 
   var bestScore = (player === 'O') ? -1000 : 1000;
@@ -70,6 +81,7 @@ Game.prototype.getMinimaxScores = function(depth, player, board) {
         bestScore = currentScore;
       }
 
+      // Stores top level possible moves and associated scores
       if (this.minimaxScoresAndMoves[move.toString()] === undefined && depth === this.minimaxMaxDepth) {
         this.minimaxScoresAndMoves[move.toString()] = currentScore;
       }
@@ -80,6 +92,7 @@ Game.prototype.getMinimaxScores = function(depth, player, board) {
       }
     }
 
+    // Reverses possible move
     boardClone.layout[move] = '-';
   };    
 

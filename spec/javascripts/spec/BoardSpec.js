@@ -25,6 +25,24 @@ describe("Board", function() {
     });    
   });
 
+  describe("#numberOfOs", function() {
+    it("returns the number of Os on the game board", function() {
+      board.layout = ['X', 'O', 'X', 
+                      '-', 'O', '-', 
+                      'X', 'O', 'X']; 
+      expect(board.numberOfOs()).toEqual(3);                           
+    });
+  });
+
+  describe("#numberOfXs", function() {
+    it("returns the number of Xs on the game board", function() {
+      board.layout = ['X', 'O', 'X', 
+                      '-', 'O', '-', 
+                      'X', 'O', 'X']; 
+      expect(board.numberOfXs()).toEqual(4);      
+    });
+  });  
+
   describe("#setOfThreeHasThreeInARow", function() {
     it("returns true if an array has all of the same element that are not '-'", function() {
       expect(board.setOfThreeHasThreeInARow(['X', 'X', 'X'])).toEqual(true);
