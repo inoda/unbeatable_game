@@ -10,7 +10,9 @@ Board.prototype.isFull = function() {
 
 Board.prototype.numberOfXs = function() {
   var count = 0;
-  for (var i = 0; i < this.layout.length; i++) {
+  var i; 
+
+  for (i = 0; i < this.layout.length; i++) {
     if (this.layout[i] === 'X') {
       count += 1;
     }
@@ -20,7 +22,9 @@ Board.prototype.numberOfXs = function() {
 
 Board.prototype.numberOfOs = function() {
   var count = 0;
-  for (var i = 0; i < this.layout.length; i++) {
+  var i;
+
+  for (i = 0; i < this.layout.length; i++) {
     if (this.layout[i] === 'O') {
       count += 1;
     }
@@ -28,16 +32,19 @@ Board.prototype.numberOfOs = function() {
   return count;  
 }
 
+// Returns an array of indices of squares that have not been taken by X or O
 Board.prototype.openSquareIndices = function() {
   var openSquares = [];
+  var i;
 
-  for (var i = 0; i < this.layout.length; i++) {
+  for (i = 0; i < this.layout.length; i++) {
     if (this.layout[i] === '-') { openSquares.push(i) }
   };
 
   return openSquares;
 }
 
+// Checks if the board has a line with three in a row anywhere
 Board.prototype.hasThreeInARow = function() {
   if (this.checkColumns() || this.checkRows() || this.checkDiagonals()) {
     return true;
@@ -45,6 +52,7 @@ Board.prototype.hasThreeInARow = function() {
   return false;
 }
 
+// Checks if one line has three in a row
 Board.prototype.setOfThreeHasThreeInARow = function(setOfThree) {
   var initialChar = setOfThree[0];
   var i;
@@ -60,14 +68,16 @@ Board.prototype.setOfThreeHasThreeInARow = function(setOfThree) {
   return true;
 }
 
+// If the board has a line with three in a row anywhere, this returns which character makes up that line (X or O)
 Board.prototype.threeInARowCharacter = function() {
   var cols = this.getCols();
   var rows = this.getRows();
   var diags = this.getDiags();
   var possibilities = cols.concat(rows).concat(diags);
   var setOfThree;
+  var i;
 
-  for (var i = 0; i < possibilities.length; i++) {
+  for (i = 0; i < possibilities.length; i++) {
     setOfThree = possibilities[i]
     if (this.setOfThreeHasThreeInARow(setOfThree)) {
       return setOfThree[0]
@@ -75,6 +85,7 @@ Board.prototype.threeInARowCharacter = function() {
   };
 }
 
+// Checks columns for a line with three in a row
 Board.prototype.checkColumns = function() {
   var cols = this.getCols();
 
@@ -84,6 +95,7 @@ Board.prototype.checkColumns = function() {
   return false;
 }
 
+// Checks rows for a line with three in a row
 Board.prototype.checkRows = function() {
   var rows = this.getRows();
 
@@ -93,6 +105,7 @@ Board.prototype.checkRows = function() {
   return false;
 }
 
+// Checks diagonals for a line with three in a row
 Board.prototype.checkDiagonals = function() {
   var diags = this.getDiags();
 
@@ -102,6 +115,7 @@ Board.prototype.checkDiagonals = function() {
   return false;  
 }
 
+// Returns a nested array - the inner elements represent each row on the board
 Board.prototype.getRows = function() {
   var rowOne = this.layout.slice(0, 3);
   var rowTwo = this.layout.slice(3, 6);
@@ -110,6 +124,7 @@ Board.prototype.getRows = function() {
   return [rowOne, rowTwo, rowThree];
 }
 
+// Returns a nested array - the inner elements represent each column on the board
 Board.prototype.getCols = function() {
   var colOne = [this.layout[0], this.layout[3], this.layout[6]];
   var colTwo = [this.layout[1], this.layout[4], this.layout[7]];
@@ -118,6 +133,7 @@ Board.prototype.getCols = function() {
   return [colOne, colTwo, colThree];
 }
 
+// Returns a nested array - the inner elements represent each diagonal on the board
 Board.prototype.getDiags = function() {
   var diagOne = [this.layout[0], this.layout[4], this.layout[8]];
   var diagTwo = [this.layout[2], this.layout[4], this.layout[6]];

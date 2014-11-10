@@ -2,11 +2,14 @@ function GameCtrl(game) {
   this.game = game;
 }
 
+// Displays the game and binds jQuery event listeners
 GameCtrl.prototype.startGame = function() {
   this.game.display();
   bindUserEventsToGameCtrl();
 };
 
+// Marks the player's move and marks the AI's move. If the game has ended at 
+// any point between those two events, the game gets closed 
 GameCtrl.prototype.run = function($square) {
   var index = indexOfClickedSquare($square);
   this.game.markPlayerMove(index);
@@ -25,12 +28,14 @@ GameCtrl.prototype.run = function($square) {
   }
 };
 
+// Unbinds events and sends an AJAX request to the server reporting who won
 GameCtrl.prototype.closeGameAndReportResults = function() {
   unbindUserEventsFromGameCtrl()
   this.reportGameResults();
   return;
 }
 
+// Sends 'X' if X won, 'O' if O won, and 'draw' if there was a tie (AJAX)
 GameCtrl.prototype.reportGameResults = function() {
   var results = this.game.results();
   var ajax = $.ajax({
@@ -50,6 +55,7 @@ function indexOfClickedSquare($square) {
   return $('.square').index($square);
 }
 
+// Shows transparent X when player hovers over squares that they could move to
 function toggleShowOnHover() {
   $('body').on('mouseover', '.show-on-hover', function() {
     $(this).children().removeClass('hidden');

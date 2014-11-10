@@ -2,6 +2,7 @@ function BoardView(board) {
   this.board = board;
 }
 
+// Builds the board's HTML
 BoardView.prototype.render = function() {
   var rows = this.board.getRows();
   var self = this;

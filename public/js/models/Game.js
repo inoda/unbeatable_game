@@ -9,14 +9,18 @@ Game.prototype.display = function() {
   this.boardView.render();
 }
 
+// Populates this.minimaxScoresAndMoves (by calling getMinimaxScores), 
+// then loops through the object and picks the move with the highest score
 Game.prototype.chooseBestMove = function() {
+  var bestScore, bestMove, move, score;
+
   this.getMinimaxScores(this.minimaxMaxDepth, "O", this.board);
 
-  var bestScore = -1000;
-  var bestMove = -1;
+  bestScore = -1000;
+  bestMove = -1;
 
-  for (var move in this.minimaxScoresAndMoves) {
-    var score = this.minimaxScoresAndMoves[move]
+  for (move in this.minimaxScoresAndMoves) {
+    score = this.minimaxScoresAndMoves[move]
     if (score > bestScore) {
       bestScore = score;
       bestMove = move;
@@ -43,6 +47,7 @@ Game.prototype.markComputerMove = function(index) {
 }
 
 Game.prototype.isPlayersTurn = function() {
+  // X goes first, so if the number of X's equals the number of O's, it's X's turn
   return this.board.numberOfXs() === this.board.numberOfOs();
 }
 
@@ -50,6 +55,7 @@ Game.prototype.isFinished = function() {
   return (this.board.isFull() || this.board.hasThreeInARow());
 }
 
+// Returns 'X', 'O', or 'draw' - returning 'X' means that X won
 Game.prototype.results = function() {
   if (!this.board.hasThreeInARow()) {
     return 'draw';
@@ -59,34 +65,43 @@ Game.prototype.results = function() {
 }
 
 Game.prototype.getMinimaxScores = function(depth, player, board) {
+  var boardClone, possibleMoves, bestScore, currentScore, move, i;
+
+  // If the board is full, there's a line with three in a row (a winner), or depth is 0, we've reached the end of this 'branch'
   if (board.isFull() || board.hasThreeInARow() || depth === 0) { 
     return evaluateBoard(board.layout);
   }
 
-  var boardClone = new Board();
+  // Clones the passed in board and board layout so that the original board isn't changed
+  boardClone = new Board();
   boardClone.layout = board.layout.slice(0);
 
-  var possibleMoves = boardClone.openSquareIndices();
+  possibleMoves = boardClone.openSquareIndices();
 
-  var bestScore = (player === 'O') ? -1000 : 1000;
-  var currentScore;
+  bestScore = (player === 'O') ? -1000 : 1000;
 
-  for (var i = 0; i < possibleMoves.length; i++) {
-    var move = possibleMoves[i];
+  // Tries each possible move and returns a score for making that move
+  for (i = 0; i < possibleMoves.length; i++) {
+    move = possibleMoves[i];
     boardClone.layout[move] = player;
 
     if (player === 'O') {
       currentScore = this.getMinimaxScores(depth - 1, 'X', boardClone);
+
+      // If it's the AI's turn, the best score is the highest score (best for the AI)
       if (currentScore > bestScore) {
         bestScore = currentScore;
       }
 
-      // Stores top level possible moves and associated scores
+      // Stores top level possible moves and associated scores for AI player
+      // so that we can pick the best one after all moves have been evaluated
       if (this.minimaxScoresAndMoves[move.toString()] === undefined && depth === this.minimaxMaxDepth) {
         this.minimaxScoresAndMoves[move.toString()] = currentScore;
       }
     } else {
       currentScore = this.getMinimaxScores(depth - 1, 'O', boardClone);
+
+      // If it's the player's turn, the best score is the lowest score (worst for the AI)
       if (currentScore < bestScore) {
         bestScore = currentScore;
       }
@@ -101,7 +116,7 @@ Game.prototype.getMinimaxScores = function(depth, player, board) {
 
 
 
-
+// Gives a score to the current state of the board
 function evaluateBoard(board) {
   var score = 0;
 
@@ -117,8 +132,19 @@ function evaluateBoard(board) {
   return score;
 }
 
-
+// Gives each line a score from the AI's perspective (more points for lines that are
+// better for O)
 function evaluateLine(board, index1, index2, index3) {
+  // If the line is empty or the line looks like XXO or OOX, score = 0
+  // If the line has 1 O and nothing else, score = 1
+  // If the line has 1 X and nothing else, score = -1
+  // If the line looks like OXO, score = 1
+  // If the line looks like XOX, score = -1
+  // If the line has 2 O's and nothing else, score = 10
+  // If the line has 2 X's and nothing else, score = -10
+  // If the line has 3 O's (AI wins), score = 100
+  // If the line has 3 X's (player wins), score = -100
+
   var score = 0;
 
   if (board[index1] === 'O') {
