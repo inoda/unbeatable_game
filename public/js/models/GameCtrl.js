@@ -4,8 +4,7 @@ function GameCtrl(game) {
 
 GameCtrl.prototype.startGame = function() {
   this.game.display();
-  toggleShowOnHover();
-  bindUserClickToGameCtrl();
+  bindUserEventsToGameCtrl();
 };
 
 GameCtrl.prototype.run = function($square) {
@@ -13,7 +12,7 @@ GameCtrl.prototype.run = function($square) {
   this.game.markPlayerMove(index);
 
   if (this.game.isFinished()) {
-    this.reportGameResults();
+    this.closeGameAndReportResults();
     return;
   }
 
@@ -21,14 +20,30 @@ GameCtrl.prototype.run = function($square) {
   this.game.display();
 
   if (this.game.isFinished()) {
-    this.reportGameResults();
+    this.closeGameAndReportResults();
     return;
   }
 };
 
+GameCtrl.prototype.closeGameAndReportResults = function() {
+  unbindUserEventsFromGameCtrl()
+  this.reportGameResults();
+  return;
+}
+
 GameCtrl.prototype.reportGameResults = function() {
   var results = this.game.results();
-  alert(results);
+  var ajax = $.ajax({
+    url: '/game',
+    method: 'POST',
+    data: { 'results': results }
+  });
+  ajax.success(function() {
+    return;
+  });
+  ajax.fail(function() {
+    console.warn("There was an issue saving your game results.");
+  });
 }
 
 function indexOfClickedSquare($square) {
@@ -45,9 +60,20 @@ function toggleShowOnHover() {
   });
 }
 
-function bindUserClickToGameCtrl() {
+function clickToSelectSquare() {
   $('body').on('click', '.show-on-hover', function() {
     $(this).removeClass('show-on-hover');
     gameCtrl.run($(this));
   });
+}
+
+function bindUserEventsToGameCtrl() {
+  toggleShowOnHover()
+  clickToSelectSquare();
+}
+
+function unbindUserEventsFromGameCtrl() {
+  $('body').unbind('click');
+  $('body').unbind('mouseover');
+  $('body').unbind('mouseout');
 }

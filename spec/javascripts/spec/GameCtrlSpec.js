@@ -5,12 +5,12 @@ describe("GameCtrl", function() {
     it("tells the game to render the view, and binds jQuery event listeners", function() {
       spyOn(gameCtrl.game, 'display');
       spyOn(window, 'toggleShowOnHover');
-      spyOn(window, 'bindUserClickToGameCtrl');
+      spyOn(window, 'clickToSelectSquare');
       
       gameCtrl.startGame();
       expect(gameCtrl.game.display).toHaveBeenCalled();
       expect(toggleShowOnHover).toHaveBeenCalled();
-      expect(bindUserClickToGameCtrl).toHaveBeenCalled();
+      expect(clickToSelectSquare).toHaveBeenCalled();
     });
   });
 
@@ -27,5 +27,32 @@ describe("GameCtrl", function() {
       expect(gameCtrl.game.chooseBestMove).toHaveBeenCalled();
       expect(gameCtrl.game.display).toHaveBeenCalled();
     });
-  });  
+
+    it("closes the game if the game is finished", function() {
+      gameCtrl.game.board.layout = ['X', 'O', 'X', 
+                                    'X', 'O', 'X', 
+                                    'X', 'O', 'X'];
+
+      spyOn(gameCtrl, 'closeGameAndReportResults');                                   
+
+      gameCtrl.run();
+      expect(gameCtrl.closeGameAndReportResults).toHaveBeenCalled();
+    });
+  });
+
+  describe("#closeGameAndReportResults", function() {
+    it("unbinds jQuery event listeners", function() {
+      spyOn(window, 'unbindUserEventsFromGameCtrl'); 
+
+      gameCtrl.closeGameAndReportResults();
+      expect(unbindUserEventsFromGameCtrl).toHaveBeenCalled();
+    });
+
+    it("reports game results", function() {
+      spyOn(gameCtrl, 'reportGameResults');
+
+      gameCtrl.closeGameAndReportResults();
+      expect(gameCtrl.reportGameResults).toHaveBeenCalled();
+    });
+  });
 });

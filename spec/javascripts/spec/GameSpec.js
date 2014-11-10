@@ -75,7 +75,23 @@ describe("Game", function() {
                                           '-', '-', '-', 
                                           '-', '-', '-']); 
     });
-  });   
+  });
+
+  describe("#isPlayersTurn", function() {
+    it("returns true if it's X's turn", function() {
+      game.board.layout = ['-', '-', '-', 
+                          '-', '-', '-', 
+                          '-', 'X', 'O'];
+      expect(game.isPlayersTurn()).toEqual(true);
+    });
+
+    it("returns false if it's O's turn", function() {
+      game.board.layout = ['-', '-', '-', 
+                          '-', '-', '-', 
+                          'X', 'X', 'O'];
+      expect(game.isPlayersTurn()).toEqual(false);      
+    });
+  });
 
   describe("#isFinished", function() {
     it("returns true if there is a winner or the board is full", function() {

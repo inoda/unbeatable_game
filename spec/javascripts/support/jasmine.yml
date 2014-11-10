@@ -4,7 +4,7 @@ src_files:
 stylesheets:
   - public/css/*.css
 helpers:
-  - 'helpers/**/*.js'
+  - 'helpers/*.js'
 spec_files:
   - '**/*[sS]pec.js'
 src_dir:
