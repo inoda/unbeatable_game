@@ -131,6 +131,3 @@ task "console" do
   exec "irb -r./config/environment"
 end
 
-task :default  => :spec
-require 'jasmine'
-load 'jasmine/tasks/jasmine.rake'

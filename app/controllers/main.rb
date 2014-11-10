@@ -20,3 +20,7 @@ post '/game' do
     game.draw
   end
 end
+
+after do
+  ActiveRecord::Base.connection.close
+end
