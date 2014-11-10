@@ -5,5 +5,9 @@ $(document).ready(function() {
     game = new Game();
     gameCtrl = new GameCtrl(game);
     gameCtrl.startGame();
+    
+    $gameDiv.click(function() {
+      $('.directions').css('visibility', 'hidden');
+    });    
   }
 });

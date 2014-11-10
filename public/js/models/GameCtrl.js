@@ -31,9 +31,6 @@ GameCtrl.prototype.reportGameResults = function() {
   alert(results);
 }
 
-
-
-
 function indexOfClickedSquare($square) {
   return $('.square').index($square);
 }

@@ -1,1 +1,12 @@
-<a href="/game">Start</a>
+<%= erb :_banner %>
+
+<div class='container'>
+  
+  <br><br>
+  <a href="/game" class='btn'>i want to try <span class='arrow'>&#10095;&#10095;</a></a>
+
+  <div class='record'>
+    <h2>Computer's Record</h2>
+    <p><%= @wins %> wins, <%= @draws %> ties, <%= @losses %> losses</p>
+  </div>
+</div>

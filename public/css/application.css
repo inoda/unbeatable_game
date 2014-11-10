@@ -1,24 +1,103 @@
-.hidden {
-  visibility: hidden;
+body {
+  font-weight: 100;
+  text-align: center;
+  font-family: helvetica, sans-serif;
+  color: #333;
+}
+
+.container {
+  max-width: 62.5em;
+  margin: 3.125em auto;
+}
+
+.banner {
+  background: #526C65;
+  background-image: url("../img/ttt.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 12em;
+  color: white;
+}
+
+.banner a {
+  color: white;
+  text-decoration: none;
+}
+
+.big-title {
+  display: inline-block;
+  font-size: 3em;
+  margin: 0.5em;
+  font-weight: bold;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;  
+}
+
+.sub-title {
+  display: block;
+  font-size: 1.3em;
+  font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.8em 2em;
+  font-size: 2em;
+  font-weight: 400;
+  font-variant: small-caps;
+  text-decoration: none;
+  color: white;
+  background-color: #139D75;
+}
+
+.btn:hover {
+  background-color: #0F8865;
+}
+
+.sm {
+  font-size: 1.3em;
+}
+
+.arrow {
+  font-size: 0.8em;
+}
+
+.record {
+  margin: 5.5em 0;
+  font-size: 1.2em;
 }
 
 div[data-game] {
-  margin: 4em 0; 
-  text-align: center;
+  font-weight: 900;
+}
+
+.directions {
+  color: gray;
 }
 
 .square {
-  border: 1px dashed lightgray;
+  border: 0.05em dashed lightgray;
   height: 2.292em;
   width: 2.292em;
   display: inline-block;
   font-size: 3em;
 }
 
+.hidden {
+  visibility: hidden;
+}
+
 .char {
   display: inline-block;
   margin-top: 0.521em;
   color: orange;
+}
+
+.x {
+  color: orange;
+} 
+
+.o {
+  color: skyblue;
 }
 
 .show-on-hover {
@@ -28,4 +107,12 @@ div[data-game] {
 .show-on-hover .char {
   opacity: 0.3;
   color: orange;
+}
+
+
+
+
+/* For Jasmine test display */
+.jasmine_html-reporter {
+  text-align: left;
 }

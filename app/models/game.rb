@@ -1,6 +1,10 @@
 class Game < ActiveRecord::Base
   before_save :check_if_valid_state
 
+  scope :games_won, -> { where(state: 'computer_win') }
+  scope :games_lost, -> { where(state: 'computer_loss') }
+  scope :games_tied, -> { where(state: 'draw') }
+
   def check_if_valid_state
     if !valid_states.include? state
       raise "Valid states are: #{valid_states.join(',')}" 
