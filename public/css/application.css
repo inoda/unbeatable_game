@@ -110,6 +110,16 @@ div[data-game] {
 }
 
 
+@media screen and (max-width: 480px) { 
+  .square {
+    height: 1.5em;
+    width: 1.5em;    
+  }
+
+  .char {
+    margin-top: 0.2em;
+  }  
+}
 
 
 /* For Jasmine test display */
