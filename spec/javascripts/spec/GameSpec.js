@@ -2,9 +2,8 @@ describe("Game", function() {
   var game = new Game();
 
   describe("#initialization", function() {
-    it("creates a Board and BoardView object", function() {
+    it("creates a Board object", function() {
       expect(game.board instanceof Board).toEqual(true);
-      expect(game.boardView instanceof BoardView).toEqual(true);
     });
   });
 

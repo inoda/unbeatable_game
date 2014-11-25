@@ -1,6 +1,5 @@
 function Game() {
   this.board = new Board();
-  this.boardView = new BoardView(this.board);
   this.minimaxScoresAndMoves = {};
   this.minimaxMaxDepth = 7;
 }
