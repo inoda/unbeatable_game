@@ -176,51 +176,5 @@ describe("Game", function() {
                                         '-', '-', 'X']);       
     });
   });
-
-  describe("evaluateLine", function() {
-    var possibleLineOutcomes1 = new Game();
-    // This is an impossible outcome, but represents many possible line combos and is used for the sake of keeping the test less cluttered.
-    possibleLineOutcomes1.board.layout = ['X', 'O', 'O', 
-                                        'X', 'O', 'O', 
-                                        'X', 'O', 'X'];     
-
-    it("returns 100 when the computer (O) has 3 in a row", function() {
-      expect(evaluateLine(possibleLineOutcomes1.board.layout, 1, 4, 7)).toEqual(100);
-    });
-
-    it("returns -100 when the player (X) has 3 in a row", function() {
-      expect(evaluateLine(possibleLineOutcomes1.board.layout, 0, 3, 6)).toEqual(-100);
-    });
-
-    it("returns 0 when a set of three has 2 O's and 1 X", function() {
-      expect(evaluateLine(possibleLineOutcomes1.board.layout, 2, 5, 8)).toEqual(0);
-    });    
-
-    it("returns 0 when a set of three has 2 X's and 1 O", function() {
-      expect(evaluateLine(possibleLineOutcomes1.board.layout, 0, 4, 8)).toEqual(0);
-    });  
-
-
-    var possibleLineOutcomes2 = new Game();
-    possibleLineOutcomes2.board.layout = ['X', 'X', 'O', 
-                                          '-', '-', 'O', 
-                                          'O', '-', 'X'];   
-
-    it("returns 0 when there's 1 X, 1 O, and 1 empty space", function() {
-      expect(evaluateLine(possibleLineOutcomes2.board.layout, 0, 3, 6)).toEqual(0);
-    });
-
-    it("returns -10 when there's 2 X's and 1 empty space", function() {
-      expect(evaluateLine(possibleLineOutcomes2.board.layout, 0, 4, 8)).toEqual(-10);
-    });     
-
-    it("returns 10 when there's 2 O's and 1 empty space", function() {
-      expect(evaluateLine(possibleLineOutcomes2.board.layout, 2, 4, 6)).toEqual(10);
-    });
-
-    it("returns 0 when there's all empty spaces", function() {
-      expect(evaluateLine(['-', '-', '-'], 0, 1, 2)).toEqual(0);
-    });                               
-  });
 });
 
