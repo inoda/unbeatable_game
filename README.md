@@ -29,7 +29,9 @@ Don't let the short and clean commit history fool you - this was a definitely a 
 * Go to [http://localhost:9393/](http://localhost:9393/) in your browser
 
 #### Running Tests
-* To run all RSpec tests, run `bundle exec rspec .`
+* To run all RSpec tests
+   * Run `bundle exec rake db:test:prepare`
+   * Run `bundle exec rspec .`
 * To run all Jasmine tests
    * Run `jasmine init`
    * Run `bundle exec rake jasmine`
