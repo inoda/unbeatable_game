@@ -4,8 +4,8 @@ $(document).ready(function() {
   // If $gameDiv is not undefined, we're on the game page
   if ($gameDiv != undefined) {
     game = new Game();
-    gameCtrl = new GameCtrl(game);
-    gameCtrl.startGame();
+    GameController = new GameController(game);
+    GameController.startGame();
     
     // Hides 'You go first.' after the player makes their first move
     $gameDiv.click(function() {

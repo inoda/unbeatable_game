@@ -1,17 +1,17 @@
-function GameCtrl(game) {
+function GameController(game) {
   this.game = game;
   this.boardView = new BoardView(game.board);
 }
 
 // Displays the game and binds jQuery event listeners
-GameCtrl.prototype.startGame = function() {
+GameController.prototype.startGame = function() {
   this.boardView.render();
-  bindUserEventsToGameCtrl();
+  bindUserEventsToGameController();
 };
 
 // Marks the player's move and marks the AI's move. If the game has ended at 
 // any point between those two events, the game gets closed 
-GameCtrl.prototype.run = function($square) {
+GameController.prototype.run = function($square) {
   var index = indexOfClickedSquare($square);
   this.game.markPlayerMove(index);
 
@@ -30,14 +30,14 @@ GameCtrl.prototype.run = function($square) {
 };
 
 // Unbinds events and sends an AJAX request to the server reporting who won
-GameCtrl.prototype.closeGameAndReportResults = function() {
-  unbindUserEventsFromGameCtrl()
+GameController.prototype.closeGameAndReportResults = function() {
+  unbindUserEventsFromGameController()
   this.reportGameResults();
   return;
 }
 
 // Sends 'X' if X won, 'O' if O won, and 'draw' if there was a tie (AJAX)
-GameCtrl.prototype.reportGameResults = function() {
+GameController.prototype.reportGameResults = function() {
   var results = this.game.results();
   var ajax = $.ajax({
     url: '/game',
@@ -70,16 +70,16 @@ function toggleShowOnHover() {
 function clickToSelectSquare() {
   $('body').on('click', '.show-on-hover', function() {
     $(this).removeClass('show-on-hover');
-    gameCtrl.run($(this));
+    GameController.run($(this));
   });
 }
 
-function bindUserEventsToGameCtrl() {
+function bindUserEventsToGameController() {
   toggleShowOnHover()
   clickToSelectSquare();
 }
 
-function unbindUserEventsFromGameCtrl() {
+function unbindUserEventsFromGameController() {
   $('body').unbind('click');
   $('body').unbind('mouseover');
   $('body').unbind('mouseout');
