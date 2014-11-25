@@ -1,6 +1,12 @@
 describe("GameController", function() {
   var gameController = new GameController(new Game());
 
+  describe("initialization", function() {
+    it("instatiates an instance of BoardView", function() {
+      expect(gameController.boardView instanceof BoardView).toEqual(true);
+    });
+  });
+
   describe("#startGame", function() {
     it("tells the game to render the view, and binds jQuery event listeners", function() {
       spyOn(gameController.boardView, 'render');

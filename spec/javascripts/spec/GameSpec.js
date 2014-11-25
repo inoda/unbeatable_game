@@ -167,5 +167,14 @@ describe("Game", function() {
                                         '-', '-', 'X']);       
     });
   });
+
+  describe("#resetMinimaxScores", function() {
+    it("sets this.minimaxScoresAndMoves to an empty object", function() {
+      game.minimaxScoresAndMoves = {'hi': 'bye'};
+      expect(game.minimaxScoresAndMoves).toEqual({'hi': 'bye'});
+      game.resetMinimaxScores(); 
+      expect(game.minimaxScoresAndMoves).toEqual({});
+    });
+  });
 });
 

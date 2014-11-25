@@ -25,6 +25,59 @@ describe("Board", function() {
     });    
   });
 
+  describe("#undoMove", function() {
+    it("sets a square as empty", function() {
+      board.layout = ['X', 'O', 'X', 
+                      'X', 'O', 'X', 
+                      'X', 'O', 'X'];
+      board.undoMove(4);
+      expect(board.layout).toEqual(['X', 'O', 'X', 
+                                    'X', '-', 'X', 
+                                    'X', 'O', 'X']);
+    });
+  });
+
+  describe("#squareIsEmpty", function() {
+    it("returns true if the square is empty", function() {
+      board.layout = ['X', 'O', 'X', 
+                      '-', 'O', '-', 
+                      'X', 'O', 'X']; 
+      expect(board.squareIsEmpty(3)).toEqual(true);
+    });
+
+    it("returns false if the square is not empty", function() {
+      board.layout = ['X', 'O', 'X', 
+                      '-', 'O', '-', 
+                      'X', 'O', 'X'];       
+      expect(board.squareIsEmpty(2)).toEqual(false);
+    });
+  });
+
+  describe("#markIndexWithCharacter", function() {
+    it("marks a square with the specified character", function() {
+      board.layout = ['X', 'O', 'X', 
+                      '-', 'O', '-', 
+                      'X', 'O', 'X'];
+      board.markIndexWithCharacter(3, 'O');    
+      expect(board.layout).toEqual(['X', 'O', 'X', 
+                                    'O', 'O', '-', 
+                                    'X', 'O', 'X']);        
+    });
+  });
+
+  describe("#cloneSelf", function() {
+    it("instantiates a new board and copies over the current state of the board", function() {
+      board.layout = ['X', 'O', 'X', 
+                      '-', 'O', '-', 
+                      'X', 'O', 'X'];
+
+      clone = board.cloneSelf();
+
+      expect(clone.layout).toEqual(board.layout);
+      expect(clone === board).toEqual(false);
+    });
+  });
+
   describe("#numberOfOs", function() {
     it("returns the number of Os on the game board", function() {
       board.layout = ['X', 'O', 'X', 
