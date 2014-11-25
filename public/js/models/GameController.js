@@ -68,7 +68,7 @@ function toggleShowOnHover() {
 }
 
 function clickToSelectSquare() {
-  $('body').on('click', '.show-on-hover', function() {
+  $('body').on('click', '.square', function() {
     $(this).removeClass('show-on-hover');
     GameController.run($(this));
   });
