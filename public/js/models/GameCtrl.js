@@ -1,10 +1,11 @@
 function GameCtrl(game) {
   this.game = game;
+  this.boardView = new BoardView(game.board);
 }
 
 // Displays the game and binds jQuery event listeners
 GameCtrl.prototype.startGame = function() {
-  this.game.display();
+  this.boardView.render();
   bindUserEventsToGameCtrl();
 };
 
@@ -20,7 +21,7 @@ GameCtrl.prototype.run = function($square) {
   }
 
   this.game.chooseBestMove();
-  this.game.display();
+  this.boardView.render();
 
   if (this.game.isFinished()) {
     this.closeGameAndReportResults();

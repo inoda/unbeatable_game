@@ -8,14 +8,6 @@ describe("Game", function() {
     });
   });
 
-  describe("#display", function() {
-    it("renders the game view", function() {
-      spyOn(game.boardView, 'render');
-      game.display();
-      expect(game.boardView.render).toHaveBeenCalled();
-    });
-  });
-
   describe("#markPlayerMove", function() {
     it("marks an X on the board at a particular index", function() {
       game.markPlayerMove(3);

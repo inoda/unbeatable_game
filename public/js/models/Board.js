@@ -4,6 +4,27 @@ function Board() {
                 '-', '-', '-'];
 }
 
+Board.prototype.cloneSelf = function() {
+  var clone = new Board();
+  clone.layout = this.layout.slice(0);
+
+  return clone;
+}
+
+Board.prototype.undoMove = function(index) {
+  this.layout[index] = '-';
+  return;
+}
+
+Board.prototype.markIndexWithCharacter = function(index, character) {
+  this.layout[index] = character;
+  return;
+}
+
+Board.prototype.squareIsEmpty = function(index) {
+  return this.layout[index] === '-';
+}
+
 Board.prototype.isFull = function() {
   return this.layout.indexOf('-') === -1;
 }

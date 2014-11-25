@@ -5,17 +5,13 @@ function Game() {
   this.minimaxMaxDepth = 7;
 }
 
-Game.prototype.display = function() {
-  this.boardView.render();
-}
-
 // Populates this.minimaxScoresAndMoves (by calling getMinimaxScores), 
 // then loops through the object and picks the move with the highest score
 Game.prototype.chooseBestMove = function() {
   var bestScore, bestMove, move, score;
 
   this.getMinimaxScores(this.minimaxMaxDepth, "O", this.board);
-  console.log(this.minimaxScoresAndMoves)
+
   bestScore = -1000;
   bestMove = -1;
 
@@ -35,14 +31,14 @@ Game.prototype.chooseBestMove = function() {
 }
 
 Game.prototype.markPlayerMove = function(index) {
-  if (this.board.layout[index] === '-' && this.isPlayersTurn()) {
-    this.board.layout[index] = 'X';
+  if (this.board.squareIsEmpty(index) && this.isPlayersTurn()) {
+    this.board.markIndexWithCharacter(index, 'X')
   }
 }
 
 Game.prototype.markComputerMove = function(index) {
-  if (this.board.layout[index] === '-' && !this.isPlayersTurn()) {
-    this.board.layout[index] = 'O';
+  if (this.board.squareIsEmpty(index) && !this.isPlayersTurn()) {
+    this.board.markIndexWithCharacter(index, 'O')
   }
 }
 
@@ -72,10 +68,7 @@ Game.prototype.getMinimaxScores = function(depth, player, board) {
     return evaluateAndScoreBoard(board, depth);
   }
 
-  // Clones the passed in board and board layout so that the original board isn't changed
-  boardClone = new Board();
-  boardClone.layout = board.layout.slice(0);
-
+  boardClone = board.cloneSelf();
   possibleMoves = boardClone.openSquareIndices();
 
   bestScore = (player === 'O') ? -1000 : 1000;
@@ -83,7 +76,7 @@ Game.prototype.getMinimaxScores = function(depth, player, board) {
   // Tries each possible move and returns a score for making that move
   for (i = 0; i < possibleMoves.length; i++) {
     move = possibleMoves[i];
-    boardClone.layout[move] = player;
+    boardClone.markIndexWithCharacter(move, player);
 
     if (player === 'O') {
       currentScore = this.getMinimaxScores(depth - 1, 'X', boardClone);
@@ -107,8 +100,7 @@ Game.prototype.getMinimaxScores = function(depth, player, board) {
       }
     }
 
-    // Reverses possible move
-    boardClone.layout[move] = '-';
+    boardClone.undoMove(move);
   };    
 
   return bestScore;

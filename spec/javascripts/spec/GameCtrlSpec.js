@@ -3,12 +3,12 @@ describe("GameCtrl", function() {
 
   describe("#startGame", function() {
     it("tells the game to render the view, and binds jQuery event listeners", function() {
-      spyOn(gameCtrl.game, 'display');
+      spyOn(gameCtrl.boardView, 'render');
       spyOn(window, 'toggleShowOnHover');
       spyOn(window, 'clickToSelectSquare');
       
       gameCtrl.startGame();
-      expect(gameCtrl.game.display).toHaveBeenCalled();
+      expect(gameCtrl.boardView.render).toHaveBeenCalled();
       expect(toggleShowOnHover).toHaveBeenCalled();
       expect(clickToSelectSquare).toHaveBeenCalled();
     });
@@ -19,13 +19,13 @@ describe("GameCtrl", function() {
       spyOn(gameCtrl.game, 'isFinished');
       spyOn(gameCtrl.game, 'markPlayerMove');
       spyOn(gameCtrl.game, 'chooseBestMove');
-      spyOn(gameCtrl.game, 'display');
+      spyOn(gameCtrl.boardView, 'render');
     
       gameCtrl.run();
       expect(gameCtrl.game.isFinished).toHaveBeenCalled();
       expect(gameCtrl.game.markPlayerMove).toHaveBeenCalled();
       expect(gameCtrl.game.chooseBestMove).toHaveBeenCalled();
-      expect(gameCtrl.game.display).toHaveBeenCalled();
+      expect(gameCtrl.boardView.render).toHaveBeenCalled();
     });
 
     it("closes the game if the game is finished", function() {
