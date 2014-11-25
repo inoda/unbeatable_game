@@ -3,14 +3,11 @@ function GameController(game) {
   this.boardView = new BoardView(game.board);
 }
 
-// Displays the game and binds jQuery event listeners
 GameController.prototype.startGame = function() {
   this.boardView.render();
   bindUserEventsToGameController();
 };
 
-// Marks the player's move and marks the AI's move. If the game has ended at 
-// any point between those two events, the game gets closed 
 GameController.prototype.run = function($square) {
   var index = indexOfClickedSquare($square);
   this.game.markPlayerMove(index);
@@ -29,14 +26,12 @@ GameController.prototype.run = function($square) {
   }
 };
 
-// Unbinds events and sends an AJAX request to the server reporting who won
 GameController.prototype.closeGameAndReportResults = function() {
   unbindUserEventsFromGameController()
   this.reportGameResults();
   return;
 }
 
-// Sends 'X' if X won, 'O' if O won, and 'draw' if there was a tie (AJAX)
 GameController.prototype.reportGameResults = function() {
   var results = this.game.results();
   var ajax = $.ajax({

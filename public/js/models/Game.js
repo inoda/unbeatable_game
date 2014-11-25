@@ -4,13 +4,13 @@ function Game() {
   this.minimaxMaxDepth = 7;
 }
 
-// Populates this.minimaxScoresAndMoves (by calling minimax), 
-// then loops through the object and picks the move with the highest score
 Game.prototype.chooseBestMove = function() {
-  var bestScore, bestMove, possibleMoves, possibleMove, score, scoredMove, i;
+  var bestScore, bestMove, possibleMoves, possibleMove, thisScore, thisMove, i;
 
   possibleMoves = this.board.openSquareIndices();
 
+  // Populates this.minimaxScoresAndMoves by calling minimax on 
+  // each possible next move
   for (i = 0; i < possibleMoves.length; i++) {
     possibleMove = possibleMoves[i];
 
@@ -21,23 +21,26 @@ Game.prototype.chooseBestMove = function() {
     this.board.undoMove(possibleMove);
   };
 
+
   bestScore = -1000;
   bestMove = -1;
-  for (scoredMove in this.minimaxScoresAndMoves) {
-    score = this.minimaxScoresAndMoves[scoredMove]
-    if (score > bestScore) {
-      bestScore = score;
-      bestMove = scoredMove;
+  
+  for (thisMove in this.minimaxScoresAndMoves) {
+    thisScore = this.minimaxScoresAndMoves[thisMove]
+    if (thisScore > bestScore) {
+      bestScore = thisScore;
+      bestMove = thisMove;
     }
   }
 
-  console.log(this.minimaxScoresAndMoves)
   this.markComputerMove(bestMove);
-
-  // Empties move/score store so that it can be populated for the next move
-  this.minimaxScoresAndMoves = {};
+  this.resetMinimaxScores();
   return;
 }
+
+Game.prototype.resetMinimaxScores = function() {
+  this.minimaxScoresAndMoves = {};
+} 
 
 Game.prototype.markPlayerMove = function(index) {
   if (this.board.squareIsEmpty(index) && this.isPlayersTurn()) {
@@ -72,17 +75,14 @@ Game.prototype.results = function() {
 Game.prototype.minimax = function(depth, player, board) {
   var boardClone, possibleMoves, bestScore, currentScore, move, i;
 
-  // If the board is full, there's a line with three in a row (a winner), or depth is 0, we've reached the end of this 'branch'
   if (board.isFull() || board.hasThreeInARow() || depth === 0) { 
     return evaluateAndScoreBoard(board, depth);
   }
 
   boardClone = board.cloneSelf();
   possibleMoves = boardClone.openSquareIndices();
-
   bestScore = (player === 'O') ? -1000 : 1000;
 
-  // Tries each possible move and returns a score for making that move
   for (i = 0; i < possibleMoves.length; i++) {
     move = possibleMoves[i];
     boardClone.markIndexWithCharacter(move, player);
