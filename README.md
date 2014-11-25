@@ -22,6 +22,11 @@ Don't let the short and clean commit history fool you - this was a definitely a 
 * Bundler 1.7.x
 
 #### Up And Running
+##### Just HTML, JS, and CSS (AJAX request and record keeping will not work)
+* Clone this repository
+* Open game.html in the app/views/dev directory 
+
+##### On The Web
 * Clone this repository
 * Run `bundle install`
 * Run `bundle exec rake db:create` and `bundle exec rake db:migrate`
@@ -50,4 +55,3 @@ Don't let the short and clean commit history fool you - this was a definitely a 
 * [http://www.neverstopbuilding.com/minimax](http://www.neverstopbuilding.com/minimax)
 * [https://www.youtube.com/watch?v=6kFKnB6JtcY](https://www.youtube.com/watch?v=6kFKnB6JtcY)
 * [http://www.youtube.com/watch?v=HFFKcP_olV0](https://www.youtube.com/watch?v=HFFKcP\_olV0)
-
