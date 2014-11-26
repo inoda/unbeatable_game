@@ -1,11 +1,16 @@
 function Game() {
   this.board = new Board();
   this.minimaxScoresAndMoves = {};
-  this.minimaxMaxDepth = 7;
+  this.minimaxMaxDepth = 6;
+
+  this.player = new Player('X');
+  this.ai = new Player('O');
+  this.player.opponent = this.ai;
+  this.ai.opponent = this.player;
 }
 
 Game.prototype.chooseBestMove = function() {
-  var bestScore, bestMove, possibleMoves, possibleMove, thisScore, thisMove, i;
+  var score, bestScore, bestMove, possibleMoves, possibleMove, thisScore, thisMove, i;
 
   possibleMoves = this.board.openSquareIndices();
 
@@ -14,8 +19,8 @@ Game.prototype.chooseBestMove = function() {
   for (i = 0; i < possibleMoves.length; i++) {
     possibleMove = possibleMoves[i];
 
-    this.board.markIndexWithCharacter(possibleMove, "O");
-    score = this.minimax(this.minimaxMaxDepth, 'X', this.board);
+    this.board.markIndexWithCharacter(possibleMove, this.ai.character);
+    score = this.minimax(this.minimaxMaxDepth, this.player, this.board);
     this.minimaxScoresAndMoves[possibleMove] = score;
 
     this.board.undoMove(possibleMove);
@@ -44,13 +49,13 @@ Game.prototype.resetMinimaxScores = function() {
 
 Game.prototype.markPlayerMove = function(index) {
   if (this.board.squareIsEmpty(index) && this.isPlayersTurn()) {
-    this.board.markIndexWithCharacter(index, 'X')
+    this.board.markIndexWithCharacter(index, this.player.character);
   }
 }
 
 Game.prototype.markComputerMove = function(index) {
   if (this.board.squareIsEmpty(index) && !this.isPlayersTurn()) {
-    this.board.markIndexWithCharacter(index, 'O')
+    this.board.markIndexWithCharacter(index, this.ai.character);
   }
 }
 
@@ -63,7 +68,6 @@ Game.prototype.isFinished = function() {
   return (this.board.isFull() || this.board.hasThreeInARow());
 }
 
-// Returns 'X', 'O', or 'draw' - returning 'X' means that X won
 Game.prototype.results = function() {
   if (!this.board.hasThreeInARow()) {
     return 'draw';
@@ -73,35 +77,23 @@ Game.prototype.results = function() {
 }
 
 Game.prototype.minimax = function(depth, player, board) {
-  var boardClone, possibleMoves, bestScore, currentScore, move, i;
+  var boardClone, possibleMoves, scores, bestScore, currentScore, move, i;
 
   if (board.isFull() || board.hasThreeInARow() || depth === 0) { 
-    return evaluateAndScoreBoard(board, depth);
+    return this.evaluateAndScoreBoard(board, depth);
   }
 
   boardClone = board.cloneSelf();
   possibleMoves = boardClone.openSquareIndices();
-  bestScore = (player === 'O') ? -1000 : 1000;
+  bestScore = (player.character === this.ai.character) ? -1000 : 1000;
 
   for (i = 0; i < possibleMoves.length; i++) {
     move = possibleMoves[i];
-    boardClone.markIndexWithCharacter(move, player);
+    boardClone.markIndexWithCharacter(move, player.character);
 
-    if (player === 'O') {
-      currentScore = this.minimax(depth - 1, 'X', boardClone);
-
-      // If it's the AI's turn, the best score is the highest score (best for the AI)
-      if (currentScore > bestScore) {
-        bestScore = currentScore;
-      }
-    } else {
-      currentScore = this.minimax(depth - 1, 'O', boardClone);
-
-      // If it's the player's turn, the best score is the lowest score (worst for the AI)
-      if (currentScore < bestScore) {
-        bestScore = currentScore;
-      }
-    }
+    currentScore = this.minimax(depth - 1, player.opponent, boardClone);
+    scores = [bestScore, currentScore].sort();
+    bestScore = player.character === this.ai.character ? scores[1] : scores[0];
 
     boardClone.undoMove(move);
   };    
@@ -109,13 +101,12 @@ Game.prototype.minimax = function(depth, player, board) {
   return bestScore;
 }
 
-
-function evaluateAndScoreBoard(board, depth) {
-  if (board.threeInARowCharacter() == 'X') {
-    return -100 * depth
-  } else if (board.threeInARowCharacter() == 'O') {
-    return 100 * depth
+Game.prototype.evaluateAndScoreBoard = function(board, depth) {
+  if (board.threeInARowCharacter() == this.player.character) {
+    return -100 * depth;
+  } else if (board.threeInARowCharacter() == this.ai.character) {
+    return 100 * depth;
   } else {
-    return 0
+    return 0;
   }
 }

@@ -139,11 +139,11 @@ describe("Game", function() {
 
     it("blocks the player from winning if necessary", function() {
       game.board.layout = ['-', '-', '-', 
-                          '-', '-', 'X', 
+                          'O', '-', 'X', 
                           'X', 'O', 'X']; 
       game.chooseBestMove();
       expect(game.board.layout).toEqual(['-', '-', 'O', 
-                                        '-', '-', 'X', 
+                                        'O', '-', 'X', 
                                         'X', 'O', 'X']);    
     });
 
